@@ -1,0 +1,28 @@
+.hamburger {
+    margin: 8px;
+}
+
+.burger {
+    display: block;
+    width: 25px;
+    height: 4px;
+    background-color: #818181;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+.hamburger:hover .burger {
+    background-color: #f1f1f1;
+}
+
+.bar1Open {
+    transform: rotate(-45deg) translate(-7px, 6px);
+}
+
+.bar2Open {
+    opacity: 0;
+}
+
+.bar3Open {
+    transform: rotate(45deg) translate(-7px, -6px);
+}

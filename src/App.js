@@ -1,25 +1,50 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import Home from './Home';
+import SideNav from './sideNav';
+import Contact from './Contact';
+import Clients from './Clients';
+import Services from './Services';
+import About from './About';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    let title = "Jamber ganja";
+    let subTitle = "recreational and medicinal solutions";
+    const [page, setPage] = useState('home');
+    const pages = ["About", "Services", "Clients", "Contact"];
 
-export default App;
+    function pageHandler(requestedPage) {
+        setPage(requestedPage);
+    }
+
+    function getPage(page) {
+        switch (page) {
+            case 'About':
+                return ( < About / > )
+            case 'Services':
+                return ( < Services / > )
+            case 'Clients':
+                return ( < Clients / > )
+            case 'Contact':
+                return ( < Contact / > )
+            default:
+                return ( <
+                    Home appTitle = { title }
+                    appSubTitle = { subTitle }
+                    />);
+                }
+        }
+        return ( <
+            div className = "App" >
+            <
+            header > < SideNav pageHandler = { pageHandler }
+            navList = { pages }
+            /></header >
+            <
+            main > { getPage(page) } < /main>    <
+            footer > < /footer>  <
+            /div>
+        );
+    }
+    export default App;
