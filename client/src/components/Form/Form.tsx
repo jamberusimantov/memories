@@ -90,6 +90,7 @@ const Form = () => {
                     value={postData.tags}
                     onChange={(e: any) => {
                         let tags = e.target.value.replace(',', ' ').split(' ');
+
                         setPostData({ ...postData, tags })
                     }}>
                 </TextField>

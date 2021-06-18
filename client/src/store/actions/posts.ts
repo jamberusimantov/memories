@@ -36,6 +36,12 @@ export const getPost = () => async (dispatch: any) => {
 }
 
 
+
+
+
+
+
+
 export const updatePost = (post: any) => async (dispatch: any) => {
     try {
         const { data } = await api.updatePost(post)

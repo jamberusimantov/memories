@@ -17,7 +17,7 @@ const { getDoc, updateDoc, postDocs } = DB;
  * @param {*} res 
  */
 async function registerUser(req, res) {
-    const user = req.body.user;
+    const user = req.body;
     const { errors, isValid } = validateRegisterInput(user);
     if (!isValid) return res.status(400).json(errors);
     let { email } = user;
@@ -54,14 +54,14 @@ async function registerUser(req, res) {
  * @param {*} res
  */
 async function loginUser(req, res) {
-    const user = req.body.user;
+    const user = req.body;
     const { errors, isValid } = validateLoginInput(user);
     if (!isValid) return res.status(400).json(errors);
     let { email, password } = user;
     const query = { email };
     const getUserSuccess = async(data) => {
         const passwordFromDB = data.password;
-        if (!data.isAuth) return failHandler('auth user', res)
+        // if (!data.isAuth) return failHandler('auth user', res,'loginUser')
         const isMatch = await bcrypt.compare(password, passwordFromDB);
         if (!isMatch) return failHandler('user credentials match', res)
         signToken(req, res, data, "logIn");
