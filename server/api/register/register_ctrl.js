@@ -94,7 +94,7 @@ const signToken = async(req, res, payload, message, emailVerification = false) =
     const dataToUpdate = { _id, token };
     const updateUserFail = () => failHandler(`signToken- ${message}`, res)
     const updateUserSuccess = async(data) => {
-        const client = process.env.NODE_ENV === "production" ? "https://mernusers.herokuapp.com" :
+        const client = process.env.NODE_ENV === "production" ? "https://memories-my-app.herokuapp.com" :
             "http://localhost:3000";
         const link = new URL(`${client}/logIn/token=${token}`);
         payload.token = token;
