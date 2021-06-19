@@ -7,6 +7,16 @@ const { successHandler, failHandler, errorHandler } = utils;
 
 
 
+const getManyPosts = async(req, res) => {
+    try {
+        console.log('get many posts...');
+        const posts = await postsCollection.find();
+        if (!posts.length) return failHandler(posts, res, 'getPosts');
+        successHandler(posts, res, 'getPosts');
+    } catch (error) {
+        errorHandler(error, res, 'getPosts');
+    } finally {}
+}
 const getPost = async(req, res) => {
     try {
         console.log('get post...');
@@ -38,17 +48,18 @@ const postPost = async(req, res) => {
 
 const updatePost = async(req, res) => {
     try {
-
+        console.log('update post...');
     } catch (error) {
         errorHandler(error, res, 'updatePost');
     } finally {}
 }
 const deletePost = async(req, res) => {
     try {
+        console.log('delete post...');
 
     } catch (error) {
         errorHandler(error, res, 'deletePost');
     } finally {}
 }
 
-module.exports = { getPost, postPost, updatePost, deletePost }
+module.exports = { getPost, postPost, updatePost, deletePost, getManyPosts }

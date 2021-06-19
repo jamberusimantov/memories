@@ -9,6 +9,7 @@ const { getDoc, updateDoc, deleteDoc, getManyDocs } = DB;
  * @param {*} res 
  */
 async function getManyUsers(req, res) {
+    console.log('get many Users...');
     const token = req.headers.authorization;
     const isToken = tokenChecker(token, res);
     const user = req.body.user;
@@ -28,6 +29,7 @@ async function getManyUsers(req, res) {
  * @param {*} res 
  */
 async function getUser(req, res) {
+    console.log('get User...');
     const token = req.headers.authorization.substr(7)
     const isToken = tokenChecker(token, res)
     if (!isToken.success) return;
@@ -47,6 +49,7 @@ async function getUser(req, res) {
  * @param {*} res 
  */
 async function updateUser(req, res) {
+    console.log('update User...');
     const token = req.headers.authorization.substr(7);
     const isToken = tokenChecker(token, res);
     const user = req.body.user;
@@ -69,6 +72,7 @@ async function updateUser(req, res) {
  * @param {*} res 
  */
 async function deleteUser(req, res) {
+    console.log('delete User...');
     const token = req.headers.authorization.substr(7)
     const isToken = tokenChecker(token, res)
     if (!isToken.success) return;

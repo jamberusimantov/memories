@@ -22,7 +22,7 @@ async function registerUser(req, res) {
     if (!isValid) return res.status(400).json(errors);
     let { email } = user;
     const query = { email };
-    const getUserSuccess = () => failHandler('unique key', res);
+    const getUserSuccess = () => failHandler(user, res, 'unique key');
     const getUserFail = async() => {
         try {
             const salt = bcrypt.genSalt(10);
@@ -37,7 +37,7 @@ async function registerUser(req, res) {
         const getPostedUserSuccess = (data) => {
             signToken(req, res, data, "signUp", true);
         };
-        const getPostedUserFail = () => failHandler(email, res)
+        const getPostedUserFail = () => failHandler(user, res, 'registerUser/ getPostedUser')
         const asyncGetPostedUser = await getDoc(usersCollection, query, getPostedUserSuccess, getPostedUserFail);
         if (asyncGetPostedUser && asyncGetPostedUser.error) throw asyncGetPostedUser.error;
     };
@@ -63,10 +63,10 @@ async function loginUser(req, res) {
         const passwordFromDB = data.password;
         // if (!data.isAuth) return failHandler('auth user', res,'loginUser')
         const isMatch = await bcrypt.compare(password, passwordFromDB);
-        if (!isMatch) return failHandler('user credentials match', res)
+        if (!isMatch) return failHandler({ isMatch }, res, 'user credentials match')
         signToken(req, res, data, "logIn");
     };
-    const getUserFail = () => failHandler(email, res)
+    const getUserFail = () => failHandler({ email }, res, 'loginUser/ getUser')
     try {
         const asyncGet = await getDoc(usersCollection, query, getUserSuccess, getUserFail);
         if (asyncGet && asyncGet.error) throw asyncGet.error;
@@ -92,7 +92,7 @@ const signToken = async(req, res, payload, message, emailVerification = false) =
     const { _id, name, email } = payload;
     const token = jwt.sign({ _id, name, email }, keys.secretOrKey, tokenOptions)
     const dataToUpdate = { _id, token };
-    const updateUserFail = () => failHandler(`signToken- ${message}`, res)
+    const updateUserFail = () => failHandler(dataToUpdate, res, `signToken- ${message}`)
     const updateUserSuccess = async(data) => {
         const client = process.env.NODE_ENV === "production" ? "https://memories-my-app.herokuapp.com" :
             "http://localhost:3000";
