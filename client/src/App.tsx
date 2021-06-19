@@ -9,21 +9,29 @@ import { useDispatch } from 'react-redux'
 import * as postActions from './store/actions/posts'
 import * as loginActions from './store/actions/login'
 import { useSelector } from 'react-redux';
-
+import browserStorage from './utils/browserStorage.utils'
 
 
 const App = () => {
     const userData = useSelector((state: any) => state.userData);
     const classes = useStyle();
     const dispatch = useDispatch();
-    const [isLogin, setIsLogin] = useState(userData.token ? true : false)
+    const [isLogin, setIsLogin] = useState(userData.name ? true : false)
     const { getAllPosts } = postActions;
     const { getUser } = loginActions;
 
 
     useEffect(() => {
-        !isLogin ? dispatch(getUser(() => setIsLogin(true))):dispatch(getAllPosts());
-    }, [isLogin, dispatch, getUser,getAllPosts])
+        dispatch(getAllPosts());
+    }, [dispatch, getAllPosts])
+
+    useEffect(() => {
+        if (browserStorage.getToken()) { dispatch(getUser(true)); }
+    }, [isLogin, dispatch, getUser])
+
+    useEffect(() => {
+        setIsLogin(userData.token === browserStorage.getToken());
+    }, [userData.token])
 
 
     return (
@@ -35,11 +43,11 @@ const App = () => {
             <Grow in>
                 <Container>
                     <Grid container justify='space-between' alignItems='stretch' spacing={3}>
-                        <Grid item xs={12} sm={4}>
-                            {isLogin && <Posts />}
+                        <Grid item  xs={12} sm={8}>
+                                {isLogin && <Posts />}
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            {isLogin ? <Form /> : <Login setIsLogin={() => setIsLogin(true)} />}
+                            {isLogin ? <Form /> : <Login />}
                         </Grid>
                     </Grid>
                 </Container>

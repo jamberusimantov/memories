@@ -42,12 +42,13 @@ export default makeStyles(()=>({
   },
   details: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     margin: '20px',
   },
   title: {
     padding: '0 16px',
-    fontSize
+    fontSize,
+
   },
   cardActions: {
     padding: '0 16px 8px 16px',

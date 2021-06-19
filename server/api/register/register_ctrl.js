@@ -97,7 +97,8 @@ const signToken = async(req, res, payload, message, emailVerification = false) =
         const client = process.env.NODE_ENV === "production" ? "https://mernusers.herokuapp.com" :
             "http://localhost:3000";
         const link = new URL(`${client}/logIn/token=${token}`);
-        if (!emailVerification) return successHandler(payload, res, message)
+        payload.token = token;
+        if (!emailVerification) return successHandler({ token }, res, message)
         const emailResponse = await emailer(email, link);
         if (emailResponse.error) throw emailResponse.error
         if (emailResponse.rejected.length) throw emailResponse.rejected

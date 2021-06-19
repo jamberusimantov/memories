@@ -8,8 +8,7 @@ import { LockOpen, Lock } from '@material-ui/icons';
 
 
 
-const Login = (props: any) => {
-    const { setIsLogin } = props;
+const Login = () => {
     interface ILogin {
         email: string,
         name: string,
@@ -30,7 +29,7 @@ const Login = (props: any) => {
     const [loginMethod, setLoginMethod] = useState(true)
     const submitHandler = (e: any) => {
         e.preventDefault();
-        dispatch(loginMethod ? loginUser(loginData, setIsLogin) : signUpUser(loginData))
+        dispatch(loginMethod ? loginUser(loginData) : signUpUser(loginData))
     }
     const resetHandler = () => { setLoginData(mockLogin); }
     return (

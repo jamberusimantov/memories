@@ -20,7 +20,7 @@ const Post = (props: any) => {
                     alt={file?.name}
                     height="140"
                     image={file?.base64}
-                    className={`${classes.media} ${classes.fullHeightCard}`}
+                    // className={`${classes.media} ${classes.fullHeightCard}`}
                     title={file?.name} />
                 <CardContent >
                     <div>
@@ -36,13 +36,13 @@ const Post = (props: any) => {
                             <MoreHoriz />
                         </Link>
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p" className={classes.details}>
+                    <Typography variant="body2" color="textSecondary" component="p">
                         {React.Children.toArray(tags.map((tag: string) => ` #${tag} `))}
                     </Typography>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.title} >
+                    <Typography gutterBottom variant="h2" component="h2" className={`${classes.title} ${classes.details}`} >
                         {title}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p" className={classes.details}>
+                    <Typography variant="body2" color="textSecondary" component="p">
                         {message}
                     </Typography>
                 </CardContent>
