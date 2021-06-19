@@ -5,22 +5,43 @@ const posts = `${baseURL}/posts`;
 const register = `${baseURL}/register`;
 const users = `${baseURL}/users`;
 
-export const signUpUser = async (credentials: any) => await axios.post(`${register}/signUp`, credentials);
-export const loginUser = async (credentials: any) => await axios.post(`${register}/logIn`, credentials);
-export const getUser = async () => await axios.post(`${users}/user`, undefined, options);
+export const signUpUser = async (credentials: any) => {
+    const res = await axios.post(`${register}/signUp`, credentials);
+    return res.data;
+}
+export const loginUser = async (credentials: any) => {
+    const res = await axios.post(`${register}/logIn`, credentials);
+    return res.data;
+}
+export const getUser = async () => {
+    const res = await axios.post(`${users}/user`, undefined, options);
+    return res.data;
+}
 
 
 
 
+export const getAllPosts = async () => {
+    const res = await axios.get(`${posts}/many`);
+    return res.data;
+}
 
-export const getAllPosts = async () => await axios.get(`${posts}/many`);
-
-
-export const getPost = async() => await axios.get(`${posts}/post`);
-export const postPost = async (post: any) => await axios.post(`${posts}/post`, post);
-export const removePost = async(post: any) => await axios.delete(`${posts}/post`);
-export const updatePost = async(post: any) => await axios.put(`${posts}/post`, post);
-
+export const getPost = async () => {
+    const res = await axios.get(`${posts}/post`);
+    return res.data;
+}
+export const postPost = async (post: any) => {
+    const res = await axios.post(`${posts}/post`, post);
+    return res.data;
+}
+export const removePost = async (post: any) => {
+    const res = await axios.delete(`${posts}/post`);
+    return res.data;
+}
+export const updatePost = async (post: any) => {
+    const res = await axios.put(`${posts}/post`, post);
+    return res.data;
+}
 // const headers = {
 //         "Origin": " http://127.0.0.1:3000",
 //         "Access-Control-Request-Method ": " POST,DELETE,PUT,OPTIONS",

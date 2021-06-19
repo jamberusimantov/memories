@@ -8,9 +8,9 @@ export const AUTH_USER_TOKEN = 'AUTH_USER_TOKEN';
 
 export const signUpUser = (post: any) => async (dispatch: any) => {
     try {
-        const { data } = await api.signUpUser(post)
-        if (data.success) return dispatch({ type: SIGNUP_USER, payload: data.data });
-        console.log(data);
+        const res = await api.signUpUser(post)
+        if (res.success) return dispatch({ type: SIGNUP_USER, payload: res.data });
+        console.log(res);
     } catch (error) {
         console.error(error.message)
     } finally { }
@@ -18,15 +18,14 @@ export const signUpUser = (post: any) => async (dispatch: any) => {
 
 export const loginUser = (post: any) => async (dispatch: any) => {
     try {
-        const { data } = await api.loginUser(post)
-        if (data.success) {
-            browserStorage.setTokenLocal(data.data.token);
-            const Data = await api.getUser()
-            const user_data= Data.data
-            if (user_data.success) return dispatch({ type: LOGIN_USER, payload: user_data.data });
-            console.log(user_data);
+        const res = await api.loginUser(post)
+        if (res.success) {
+            browserStorage.setTokenLocal(res.data.token);
+            const res_user = await api.getUser()
+            if (res_user.success) return dispatch({ type: LOGIN_USER, payload: res_user.data });
+            console.log(res_user);
         }
-        console.log(data);
+        console.log(res);
     } catch (error) {
         console.error(error.message)
     } finally { }
@@ -34,11 +33,11 @@ export const loginUser = (post: any) => async (dispatch: any) => {
 
 export const getUser = (isLogin = false) => async (dispatch: any) => {
     try {
-        const { data } = await api.getUser()
-        if (data.success) {
-            return dispatch({ type: isLogin ? LOGIN_USER : GET_USER, payload: data.data });
+        const res = await api.getUser()
+        if (res.success) {
+            return dispatch({ type: isLogin ? LOGIN_USER : GET_USER, payload: res.data });
         }
-        console.log(data);
+        console.log(res);
     } catch (error) {
         console.error(error.message)
     } finally { }
