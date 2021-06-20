@@ -16,21 +16,30 @@ const App = () => {
     const userData = useSelector((state: any) => state.userData);
     const classes = useStyle();
     const dispatch = useDispatch();
-    const [isLogin, setIsLogin] = useState(userData.name ? true : false)
+    const [isLogin, setIsLogin] = useState(false)
     const { getAllPosts } = postActions;
     const { getUser } = loginActions;
 
 
     useEffect(() => {
-        dispatch(getAllPosts());
+        dispatch(getAllPosts())
+        console.log('getAllPosts');
+
     }, [dispatch, getAllPosts])
 
     useEffect(() => {
-        if (browserStorage.getToken()) { dispatch(getUser(true)); }
-    }, [isLogin, dispatch, getUser])
+        (async function () {
+            if (browserStorage.getToken() && browserStorage.getToken() !== userData.token) dispatch(getUser(true));
+            console.log(`browserStorage Token: ${ browserStorage.getToken()}`);
+        }())
+    }, [dispatch, getUser])
 
     useEffect(() => {
-        setIsLogin(userData.token === browserStorage.getToken());
+        const tokenComparison = typeof userData.token !== 'undefined' && userData.token === browserStorage.getToken();
+        if (isLogin !== tokenComparison && typeof tokenComparison !== 'undefined') return (function(){
+            setIsLogin(tokenComparison)
+            console.log(`isLogin :${tokenComparison}`);
+        }())
     }, [userData.token])
 
 
@@ -43,8 +52,8 @@ const App = () => {
             <Grow in>
                 <Container>
                     <Grid container justify='space-between' alignItems='stretch' spacing={3}>
-                        <Grid item  xs={12} sm={8}>
-                                {isLogin && <Posts />}
+                        <Grid item xs={12} sm={8}>
+                            {isLogin && <Posts />}
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             {isLogin ? <Form /> : <Login />}

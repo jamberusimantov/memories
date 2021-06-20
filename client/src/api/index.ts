@@ -1,6 +1,6 @@
 import BrowserStorage from '../utils/browserStorage.utils'
 import axios from 'axios';
-const baseURL = process.env.NODE_ENV === "production" ? "https://memories-my-app.herokuapp.com/" : "http://localhost:4201";
+const baseURL = process.env.NODE_ENV === "production" ? "https://memories-my-app.herokuapp.com" : "http://localhost:4201";
 const posts = `${baseURL}/posts`;
 const register = `${baseURL}/register`;
 const users = `${baseURL}/users`;
@@ -14,6 +14,7 @@ export const loginUser = async (credentials: any) => {
     return res.data;
 }
 export const getUser = async () => {
+    console.log('get User...');
     const res = await axios.post(`${users}/user`, undefined, options);
     return res.data;
 }

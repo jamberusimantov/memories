@@ -14,7 +14,7 @@ async function getManyUsers(req, res) {
     const isToken = tokenChecker(token, res);
     const user = req.body.user;
     if (!isToken.success) return;
-    const getUserSuccess = data => successHandler(data, res, 'GET')
+    const getUserSuccess = data => successHandler(data, res, 'getManyUsers')
     const getUserFail = () => failHandler(token, res)
     try {
         const asyncGet = await getManyDocs(usersCollection, user, getUserSuccess, getUserFail)
@@ -33,8 +33,8 @@ async function getUser(req, res) {
     const token = req.headers.authorization.substr(7)
     const isToken = tokenChecker(token, res)
     if (!isToken.success) return;
-    const getUserSuccess = data => successHandler(data, res, 'GET')
-    const getUserFail = () => failHandler(token, res)
+    const getUserSuccess = data => successHandler(data, res, 'getUser')
+    const getUserFail = () => failHandler(token, res, 'getUser-users_api')
     try {
         const asyncGet = await getDoc(usersCollection, { token }, getUserSuccess, getUserFail)
         if (asyncGet && asyncGet.error) throw asyncGet.error;
@@ -56,7 +56,7 @@ async function updateUser(req, res) {
     const isUser = queryChecker(user, res);
     if (!isToken.success || !isUser.success) return;
     user.token = token;
-    const updateUserSuccess = data => successHandler(data, res, 'PUT');
+    const updateUserSuccess = data => successHandler(data, res, 'updateUser');
     const updateUserFail = () => failHandler(_id, res);
     try {
         const asyncUpdate = await updateDoc(usersCollection, user, updateUserSuccess, updateUserFail);
@@ -76,7 +76,7 @@ async function deleteUser(req, res) {
     const token = req.headers.authorization.substr(7)
     const isToken = tokenChecker(token, res)
     if (!isToken.success) return;
-    const deleteUserSuccess = data => successHandler(data, res, 'DELETE')
+    const deleteUserSuccess = data => successHandler(data, res, 'deleteUser')
     const deleteUserFail = () => failHandler(token, res)
     try {
         const asyncDelete = await deleteDoc(usersCollection, { token }, deleteUserSuccess, deleteUserFail);

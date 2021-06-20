@@ -14,7 +14,7 @@ const Posts = () => {
         <Grid container justify='center' alignItems='center' spacing={3} className={classes.mainContainer}>
             <LoaderSmall />
         </Grid>
-    )
+    ) 
     return (
         <Grid container justify='space-between' alignItems='stretch' spacing={3}>
             {React.Children.toArray(posts.map((post: any) =>

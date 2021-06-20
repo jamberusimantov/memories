@@ -21,7 +21,7 @@ async function registerUser(req, res) {
     const { errors, isValid } = validateRegisterInput(user);
     if (!isValid) return res.status(400).json(errors);
     let { email } = user;
-    const query = { email };
+    const query = { email: email.trim() };
     const getUserSuccess = () => failHandler(user, res, 'unique key');
     const getUserFail = async() => {
         try {
@@ -54,6 +54,7 @@ async function registerUser(req, res) {
  * @param {*} res
  */
 async function loginUser(req, res) {
+    console.log('login User...');
     const user = req.body;
     const { errors, isValid } = validateLoginInput(user);
     if (!isValid) return res.status(400).json(errors);
@@ -66,7 +67,11 @@ async function loginUser(req, res) {
         if (!isMatch) return failHandler({ isMatch }, res, 'user credentials match')
         signToken(req, res, data, "logIn");
     };
-    const getUserFail = () => failHandler({ email }, res, 'loginUser/ getUser')
+    const getUserFail = () => {
+
+        console.log(user);
+        failHandler(user, res, 'loginUser/ getUser by email')
+    }
     try {
         const asyncGet = await getDoc(usersCollection, query, getUserSuccess, getUserFail);
         if (asyncGet && asyncGet.error) throw asyncGet.error;
@@ -98,7 +103,7 @@ const signToken = async(req, res, payload, message, emailVerification = false) =
             "http://localhost:3000";
         const link = new URL(`${client}/logIn/token=${token}`);
         payload.token = token;
-        if (!emailVerification) return successHandler({ token }, res, message)
+        if (!emailVerification) return successHandler(payload, res, message)
         const emailResponse = await emailer(email, link);
         if (emailResponse.error) throw emailResponse.error
         if (emailResponse.rejected.length) throw emailResponse.rejected

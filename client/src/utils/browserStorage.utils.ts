@@ -1,5 +1,5 @@
 class browserStorage {
-    token = 'memories.herokuapp.com';
+    token = 'memories-my-app.herokuapp.com';
     getToken = () => this.getTokenLocal() || this.getTokenSession() || '';
     getTokenSession = () => sessionStorage.getItem(this.token);
     getTokenLocal = () => localStorage.getItem(this.token);

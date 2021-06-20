@@ -1,28 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser, signUpUser } from '../../store/actions/login'
 import useStyle from './style'
 import { Typography, TextField, Button, Paper, IconButton } from '@material-ui/core'
 import { useState } from "react";
 import { LockOpen, Lock } from '@material-ui/icons';
-
+import { useSelector } from 'react-redux';
 
 
 const Login = () => {
     interface ILogin {
         email: string,
-        name: string,
+        name?: string,
         password: string,
-        password1: string,
-        phone: string,
+        password1?: string,
+        phone?: string,
     }
     const mockLogin = {
         email: '',
-        name: '',
         password: '',
-        password1: '',
-        phone: '',
     }
+    const userData = useSelector((state: any) => state.userData);
     const dispatch = useDispatch();
     const classes = useStyle();
     const [loginData, setLoginData] = useState<ILogin>(mockLogin)
@@ -32,6 +30,7 @@ const Login = () => {
         dispatch(loginMethod ? loginUser(loginData) : signUpUser(loginData))
     }
     const resetHandler = () => { setLoginData(mockLogin); }
+
     return (
         <Paper className={classes.paper}>
             <form autoComplete='off' noValidate className={`${classes.form} ${classes.root}`} onSubmit={submitHandler}>
