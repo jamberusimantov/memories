@@ -71,8 +71,7 @@ const Form = (props: any) => {
             <form
                 autoComplete='off'
                 noValidate
-                className={`${classes.form} ${classes.root}`}
-                onSubmit={submitHandler}>
+                className={`${classes.form} ${classes.root}`}>
 
                 {/* form Head */}
                 <div className={classes.formHead}>
@@ -173,11 +172,10 @@ const Form = (props: any) => {
                 {/* submit */}
                 <Link to='/' className={classes.buttonSubmit}>
                     <Button
-                        type='submit'
-                        
                         fullWidth
                         size='large'
                         color='primary'
+                        onClick={submitHandler}
                         variant='contained'>
                         Send
                     </Button>
@@ -186,7 +184,6 @@ const Form = (props: any) => {
                 {/* reset */}
                 <Link to='/' className={classes.buttonReset}>
                     <Button
-                        type='reset'
                         fullWidth
                         size='small'
                         color='secondary'
