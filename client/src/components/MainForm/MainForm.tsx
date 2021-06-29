@@ -15,11 +15,11 @@ const Form = (props: any) => {
     const { responseHandler: { formResponse, messageHandler } } = props;
     const user = useSelector((state: any) => state.user);
     const form = useSelector((state: any) => state.form);
+    const theme = useSelector((state: any) => state.theme);
     const { formData, method } = form;
     const dispatch = useDispatch();
-    const classes = useStyle();
+    const classes = useStyle(theme);
     const [isAddFile, setIsAddFile] = useState(false)
-
     const submitHandler = (e: any) => {
         e.preventDefault();
         if (method === 0) {
@@ -77,7 +77,7 @@ const Form = (props: any) => {
                 <div className={classes.formHead}>
                     {/* form toggle */}
                     <IconButton
-                        color="primary"
+                      className={classes.formHead_button}
                         aria-label="create a post / search a post  toggle"
                         component="span"
                         onClick={() => dispatch(setMainFormMethod(method === 0 ? 1 : 0))}>
@@ -148,7 +148,7 @@ const Form = (props: any) => {
                         {/* label to undisplayed input */}
                         <label htmlFor="file">
                             <IconButton
-                                color="primary"
+                                className={classes.uploadImg}
                                 aria-label="upload picture"
                                 component="span"
                                 onClick={() => setIsAddFile(true)}>
@@ -170,11 +170,11 @@ const Form = (props: any) => {
 
 
                 {/* submit */}
-                <Link to='/' className={classes.buttonSubmit}>
+                <Link to='/' className={classes.link}>
                     <Button
                         fullWidth
+                        className={classes.btn}
                         size='large'
-                        color='primary'
                         onClick={submitHandler}
                         variant='contained'>
                         Send
@@ -182,11 +182,11 @@ const Form = (props: any) => {
                 </Link>
 
                 {/* reset */}
-                <Link to='/' className={classes.buttonReset}>
+                <Link to='/' className={classes.link}>
                     <Button
                         fullWidth
+                        className={classes.btn}
                         size='small'
-                        color='secondary'
                         variant='contained'
                         onClick={resetHandler}>
                         Reset

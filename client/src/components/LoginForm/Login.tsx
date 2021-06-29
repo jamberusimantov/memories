@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser, signUpUser } from '../../store/actions/login.actions'
 import useStyle from './style.login'
 import { Typography, TextField, Button, Paper, IconButton } from '@material-ui/core'
@@ -7,18 +7,20 @@ import { Lock } from '@material-ui/icons';
 import { ILoginFormData, mockLoginFormData } from '../../utils/app.utils';
 
 
-
 const Login = (props: any) => {
     const { responseHandler: { formResponse, messageHandler } } = props;
-
+    const userTheme = useSelector((state: any) => state.theme);
     const dispatch = useDispatch();
-    const classes = useStyle();
+    const classes = useStyle(userTheme);
     const [loginData, setLoginData] = useState<ILoginFormData>(mockLoginFormData)
     const [loginMethod, setLoginMethod] = useState(true)
     const submitHandler = (e: any) => {
         e.preventDefault();
-        messageHandler(loginMethod ? 'logging in...' : 'signing up...')
-        dispatch(loginMethod ? loginUser(loginData, messageHandler) : signUpUser(loginData, messageHandler));
+
+        if (loginData.email.length && loginData.password.length) {
+            dispatch(loginMethod ? loginUser(loginData, messageHandler) : signUpUser(loginData, messageHandler));
+            messageHandler(loginMethod ? 'logging in...' : 'signing up...')
+        }
     }
     const resetHandler = () => { setLoginData(mockLoginFormData); }
 
@@ -28,13 +30,14 @@ const Login = (props: any) => {
                 autoComplete='off'
                 noValidate
                 className={`${classes.form} ${classes.root}`}
-                onSubmit={submitHandler}>
+            >
 
                 {/* form Head */}
                 <div className={classes.formHead}>
                     {/* form toggle */}
                     <IconButton
                         color="primary"
+                        className={classes.formHead_button}
                         aria-label="sign up log in toggle"
                         component="span"
                         onClick={() => setLoginMethod(!loginMethod)}>
@@ -48,11 +51,6 @@ const Login = (props: any) => {
                         className={classes.formHead_title}
                     >{loginMethod ? 'Log in' : 'Sign up'}</Typography>
                 </div>
-
-
-
-
-
 
                 {/* email */}
                 <TextField
@@ -70,6 +68,7 @@ const Login = (props: any) => {
                     variant='outlined'
                     label='Password'
                     fullWidth
+                    type='password'
                     value={loginData.password}
                     onChange={(e: any) => setLoginData({ ...loginData, password: e.target.value })}>
                 </TextField>
@@ -81,6 +80,7 @@ const Login = (props: any) => {
                             variant='outlined'
                             label='Password-check'
                             fullWidth
+                            type='password'
                             value={loginData.password1}
                             onChange={(e: any) => setLoginData({ ...loginData, password1: e.target.value })}>
                         </TextField>
@@ -109,22 +109,20 @@ const Login = (props: any) => {
 
                 {/* submit */}
                 <Button
-                    type='submit'
-                    className={classes.buttonSubmit}
+                    className={classes.btn}
                     fullWidth
                     size='large'
-                    color='primary'
-                    variant='contained'>
+                    variant='contained'
+                    onClick={submitHandler}
+                >
                     Send
                 </Button>
 
                 {/* reset */}
                 <Button
-                    type='reset'
-                    className={classes.buttonReset}
+                    className={classes.btn}
                     fullWidth
                     size='small'
-                    color='secondary'
                     variant='contained'
                     onClick={resetHandler}>
                     Reset

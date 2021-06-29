@@ -16,9 +16,10 @@ const Post = (props: { post: IPost, isUserPage?: boolean }) => {
     const { creator, creatorId, title, message, file, tags, _id, createdAt, likes } = post;
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user);
+    const theme = useSelector((state: any) => state.theme);
     const [likeResponse, setLikeResponse] = useState('');
     const [isLike, setIsLike] = useState(likes?.some((like) => ({ _id: user._id, name: user.name })));
-    const classes = useStyles();
+    const classes = useStyles(theme);
     const tagsArray = tags?.split(' ') || [];
     const currentCreator = creatorId === user._id;
 
@@ -186,7 +187,11 @@ const Post = (props: { post: IPost, isUserPage?: boolean }) => {
                                 dispatch(setMainFormData({ creator, title, message, tags, _id: '' }));
                                 dispatch(setMainFormMethod(0));
                             }}>
-                            <Typography variant="inherit" component="span" >{isUserPage? 'GO BACK': 'LEARN MORE'}</Typography>
+                            <Typography 
+                            variant="inherit" 
+                            component="span" 
+                            className={classes.link}
+                            >{isUserPage ? 'GO BACK' : 'LEARN MORE'}</Typography>
                         </Link>
                     }
                 </Button>

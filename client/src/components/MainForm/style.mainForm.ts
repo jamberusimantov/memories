@@ -1,6 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
+import style from '../../style'
 
-export default makeStyles((theme) => ({
+const useStyle = (userTheme:any) => {
+
+  const loginStyle =  makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -22,21 +25,25 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
   },
   formHead_button: {
-    flexBasis: 1,
+    color:  userTheme.primaryColor || style.colors[9].value,
   },
   formHead_title: {
     textAlign: 'center',
     flexGrow: 1,
   },
-  buttonSubmit: {
+  link: {
+    width: '100%',
+  },
+  uploadImg: {
+    color: userTheme.primaryColor || style.colors[5].value,
+  },
+  btn: {
     marginBottom: 10,
-    width:'100%'
+    backgroundColor: userTheme.secondaryColor || style.colors[0].value,
+    color: userTheme.primaryColor || style.colors[9].value,
+    fontSize: userTheme.fontSize || 'medium',
   },
   buttonAddFile: {
-    marginBottom: 10,
-  },
-  buttonReset: {
-    width:'100%',
     marginBottom: 10,
   },
   show: {
@@ -51,7 +58,7 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 'bold',
-    color: '#cccccc',
+    color: userTheme.secondaryColor || style.colors[0].value,
     minHeight: '100px',
     width: '100%',
   },
@@ -59,3 +66,6 @@ export default makeStyles((theme) => ({
     width: '100%',
   },
 }));
+return loginStyle();
+}
+export default useStyle;

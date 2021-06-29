@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/theme.actions';
 
 const { SET_PRIMARY_COLOR, SET_SECONDARY_COLOR, SET_EMPHASIZE_COLOR,
-    SET_POLYGON_HEIGHT, SET_POLYGON_WIDTH, SET_POLYGON_OPACITY} = actionTypes;
+    SET_POLYGON_HEIGHT, SET_POLYGON_WIDTH, SET_POLYGON_OPACITY,SET_FONT_COLOR} = actionTypes;
 
 const reducer = (theme = {}, action: any) => {
     switch (action.type) {
@@ -11,6 +11,7 @@ const reducer = (theme = {}, action: any) => {
         case SET_POLYGON_HEIGHT: return { ...theme, polygonHeight: action.payload };
         case SET_POLYGON_WIDTH: return { ...theme, polygonWidth: action.payload };
         case SET_POLYGON_OPACITY: return { ...theme, polygonOpacity: action.payload };
+        case SET_FONT_COLOR: return { ...theme, fontColor: action.payload };
 
         default: return theme;
     }

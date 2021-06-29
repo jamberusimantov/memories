@@ -15,8 +15,8 @@ const App = () => {
     const loginActions = actions.login
     const user = useSelector((state: any) => state.user);
     const Theme = useSelector((state: any) => state.theme);
-    const { primaryColor, secondaryColor, emphasizeColor, polygonHeight, polygonWidth, polygonOpacity } = Theme;
-    const dataToUpdate = { primaryColor, secondaryColor, emphasizeColor, polygonHeight, polygonWidth, polygonOpacity }
+    const { primaryColor, secondaryColor, emphasizeColor, polygonHeight, polygonWidth, polygonOpacity, fontColor } = Theme;
+    const dataToUpdate = { fontColor, primaryColor, secondaryColor, emphasizeColor, polygonHeight, polygonWidth, polygonOpacity }
     const classes = useStyle(dataToUpdate);
     const dispatch = useDispatch();
     const [isLogin, setIsLogin] = useState(false);
@@ -50,7 +50,7 @@ const App = () => {
     return (
         <div className={classes.root}>
             <Container maxWidth='lg' >
-                <UserSection />
+                {isLogin && <UserSection />}
 
                 {/* header */}
                 <AppBar className={classes.appBar} position='static' color='inherit' >
@@ -76,9 +76,9 @@ const App = () => {
 
                             {/* main display */}
                             <Grid
-                              item 
-                              xs={12} 
-                              sm={8}>
+                                item
+                                xs={12}
+                                sm={8}>
                                 <Router />
                             </Grid>
 

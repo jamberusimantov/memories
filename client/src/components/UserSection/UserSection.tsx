@@ -29,7 +29,8 @@ export default function UserSection() {
         setPolygonHeight,
         setPolygonWidth,
         setPolygonOpacity,
-        setUserTheme
+        setUserTheme,
+        setFontColor,
     } = themeActions
     const user = useSelector((state: any) => state.user);
     const theme = useSelector((state: any) => state.theme);
@@ -58,38 +59,43 @@ export default function UserSection() {
         dispatch(setUserTheme(theme, messageHandler));
     }
     const resetHandler = () => {
-        setPrimaryColor(user.theme.primaryColor || "#4078c0");
-        setSecondaryColor(user.theme.secondaryColor || "#F4CBB2");
+        setPrimaryColor(user.theme.primaryColor ||'#6cc644');
+        setSecondaryColor(user.theme.secondaryColor ||  '#333');
         setEmphasizeColor(user.theme.emphasizeColor || "#f5f5f5");
         setPolygonHeight(user.theme.polygonHeight || 450);
         setPolygonWidth(user.theme.polygonWidth || 540);
-        setPolygonOpacity(user.theme.polygonOpacity || 1);
+        setPolygonOpacity(user.theme.polygonOpacity || 9);
+        setFontColor(user.theme.fontColor || '#f5f5f5');
     }
 
     useEffect(() => {
-        dispatch(setPrimaryColor(user.theme?.primaryColor || "#4078c0"));
-
+        dispatch(setPrimaryColor(user.theme?.primaryColor || '#6cc644'));
     }, [dispatch, setPrimaryColor, colors, user.theme?.primaryColor])
-
+    
+    
     useEffect(() => {
-        dispatch(setSecondaryColor(user.theme?.secondaryColor || "#F4CBB2"));
+        dispatch(setSecondaryColor(user.theme?.secondaryColor ||  '#333'));
     }, [dispatch, setSecondaryColor, colors, user.theme?.secondaryColor])
-
+    
     useEffect(() => {
         dispatch(setEmphasizeColor(user.theme?.emphasizeColor || "#f5f5f5"));
     }, [dispatch, setEmphasizeColor, colors, user.theme?.emphasizeColor])
-
+    
     useEffect(() => {
         dispatch(setPolygonHeight(user.theme?.polygonHeight || 450));
     }, [dispatch, setPolygonHeight, user.theme?.polygonHeight])
-
+    
     useEffect(() => {
         dispatch(setPolygonWidth(user.theme?.polygonWidth || 540));
     }, [dispatch, setPolygonWidth, user.theme?.polygonWidth])
-
+    
     useEffect(() => {
-        dispatch(setPolygonOpacity(user.theme?.polygonOpacity || 1));
+        dispatch(setPolygonOpacity(user.theme?.polygonOpacity || 9));
     }, [dispatch, setPolygonOpacity, user.theme?.polygonOpacity])
+    
+    useEffect(() => {
+        dispatch(setFontColor(user.theme?.fontColor || '#f5f5f5'));
+    }, [dispatch, setFontColor, colors, user.theme?.fontColor])
 
     const userSection = (
         <Paper className={classes.paper}>
@@ -166,6 +172,16 @@ export default function UserSection() {
                     type='number'
                     value={theme.polygonOpacity || 1}
                     onChange={(e: any) => dispatch(setPolygonOpacity(JSON.parse(e.target.value)))}>
+                </TextField>
+
+                {/* font color */}
+                <TextField
+                    name='font-color'
+                    variant='outlined'
+                    label='Font color'
+                    fullWidth
+                    value={theme.fontColor || '#f5f5f5'}
+                    onChange={(e: any) => dispatch(setFontColor(e.target.value))}>
                 </TextField>
 
                 {/* polygon opacity progress bar */}
