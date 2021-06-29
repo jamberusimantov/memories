@@ -50,9 +50,10 @@ async function getUser(req, res) {
  */
 async function updateUser(req, res) {
     console.log('update User...');
+    if (!req.headers.authorization) return failHandler('authorization is required', res, 'updateUser');
     const token = req.headers.authorization.substr(7);
     const isToken = tokenChecker(token, res);
-    const user = req.body.user;
+    const user = req.body;
     const isUser = queryChecker(user, res);
     if (!isToken.success || !isUser.success) return;
     user.token = token;

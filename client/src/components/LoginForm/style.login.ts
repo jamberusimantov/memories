@@ -14,10 +14,31 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
+  formHead: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  formHead_button: {
+    flexBasis: 1,
+    wordBreak: 'keep-all',
+  },
+  formHead_title: {
+    textAlign: 'center',
+    flexGrow: 1,
+  },
   buttonSubmit: {
     marginBottom: 10,
   },
   buttonReset: {
     marginBottom: 10,
+  },
+  show: {
+    display: 'block',
+  },
+  hide: {
+    display: 'none'
   },
 }));

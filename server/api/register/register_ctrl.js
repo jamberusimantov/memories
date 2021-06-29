@@ -18,26 +18,29 @@ const { getDoc, updateDoc, postDocs } = DB;
  */
 async function registerUser(req, res) {
     const user = req.body;
+    let { email } = user;
+    if (!email) return errorHandler('no user obj', res, 'register')
+    const query = { email: email.trim() };
+    console.log(`register user...${user.name}`);
     const { errors, isValid } = validateRegisterInput(user);
     if (!isValid) return res.status(400).json(errors);
-    let { email } = user;
-    const query = { email: email.trim() };
     const getUserSuccess = () => failHandler(user, res, 'unique key');
     const getUserFail = async() => {
-        try {
-            const salt = bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(user.password, salt);
-            const asyncPost = await postDocs(usersCollection, user, postUserSuccess);
-            if (asyncPost && asyncPost.error) throw asyncPost.error;
-        } catch (error) {
-            errorHandler(error, res, 'registerUser-getUserFail', 400);
-        } finally {}
+        user.password = await bcrypt.hash(user.password, 10);
+
+        const asyncPost = await postDocs(usersCollection, user, postUserSuccess);
+        if (asyncPost && asyncPost.error) throw asyncPost.error;
     };
     const postUserSuccess = async() => {
+        console.log('post user success...');
         const getPostedUserSuccess = (data) => {
-            signToken(req, res, data, "signUp", true);
+            console.log('get posted user success...');
+            signToken(req, res, data, "signUp");
         };
-        const getPostedUserFail = () => failHandler(user, res, 'registerUser/ getPostedUser')
+        const getPostedUserFail = () => {
+            console.log('get posted user success...');
+            failHandler(user, res, 'registerUser/ getPostedUser')
+        }
         const asyncGetPostedUser = await getDoc(usersCollection, query, getPostedUserSuccess, getPostedUserFail);
         if (asyncGetPostedUser && asyncGetPostedUser.error) throw asyncGetPostedUser.error;
     };
@@ -48,6 +51,7 @@ async function registerUser(req, res) {
         errorHandler(error, res, 'registerUser', 400)
     } finally {}
 }
+
 /**
  * login user from users Collection
  * @param {*} req
@@ -87,7 +91,7 @@ async function loginUser(req, res) {
  * @param {*} message
  * @param {*} emailVerification
  */
-const signToken = async(req, res, payload, message, emailVerification = false) => {
+const signToken = async(req, res, payload, message) => {
     const second = 1000;
     const minute = 60 * second
     const hour = 60 * minute
@@ -98,21 +102,9 @@ const signToken = async(req, res, payload, message, emailVerification = false) =
     const token = jwt.sign({ _id, name, email }, keys.secretOrKey, tokenOptions)
     const dataToUpdate = { _id, token };
     const updateUserFail = () => failHandler(dataToUpdate, res, `signToken- ${message}`)
-    const updateUserSuccess = async(data) => {
-        const client = process.env.NODE_ENV === "production" ? "https://memories-my-app.herokuapp.com" :
-            "http://localhost:3000";
-        const link = new URL(`${client}/logIn/token=${token}`);
+    const updateUserSuccess = async() => {
         payload.token = token;
-        if (!emailVerification) return successHandler(payload, res, message)
-        const emailResponse = await emailer(email, link);
-        if (emailResponse.error) throw emailResponse.error
-        if (emailResponse.rejected.length) throw emailResponse.rejected
-        const emailLog = {
-            name,
-            email: emailResponse.accepted,
-            emailResponse: emailResponse.response,
-        };
-        successHandler(emailLog, res, 'email')
+        successHandler(payload, res, message)
     };
     try {
         const asyncUpdate = await updateDoc(usersCollection, dataToUpdate, updateUserSuccess, updateUserFail);

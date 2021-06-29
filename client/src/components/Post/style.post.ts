@@ -1,7 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+
 const fontSize ='large';
-const color ='white';
+const color = 'rgba(0, 0, 0, 0.5)';
+
+
 export default makeStyles(()=>({
   media: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -38,20 +41,37 @@ export default makeStyles(()=>({
     position: 'absolute',
     top: '20px',
     right: '20px',
-    color,
+    // color,
   },
   details: {
     display: 'flex',
     justifyContent: 'center',
     margin: '20px',
   },
+  message: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '40px',
+  },
   title: {
     padding: '0 16px',
     fontSize,
+    textAlign:'center',
 
   },
+  left:{
+    textAlign:'left',
+  },
   cardActions: {
-    padding: '0 16px 8px 16px',
+    padding: '0 16px 8px',
+    display: 'flex',
+    width:'100%',
+    justifyContent: 'space-between',
+    position:'absolute',
+    bottom:'8px',
+  },
+  cardActionsBtn: {
+    padding: '0 16px 8px',
     display: 'flex',
     justifyContent: 'space-between',
   },

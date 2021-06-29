@@ -43,6 +43,7 @@ const errorHandler = (error, res, method, status = 404) => res.status(status).js
     success: false,
     message: `${method} failure`,
     error: error.message,
+    errorFull: error,
 })
 
 const successHandler = (data, res, method, status = 200) => res.status(status).json({

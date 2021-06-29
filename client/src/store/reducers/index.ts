@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
-import posts from './post'
-import login from './login'
+import posts from './post.reducers'
+import user from './login.reducers'
+import form from './form.reducers'
+import theme from './theme.reducers'
+
 export default combineReducers({
     posts,
-    userData: login,
+    user,
+    form,
+    theme,
 });

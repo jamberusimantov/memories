@@ -18,10 +18,17 @@ const user = new Schema({
         type: String,
         required: true,
     },
-    isAuth: Boolean,
     token: String,
     pictures: {
         type: Object,
     },
+    theme: {
+        primaryColor: String,
+        secondaryColor: String,
+        emphasizeColor: String,
+        polygonHeight: Number,
+        polygonWidth: Number,
+        polygonOpacity: Number,
+    }
 }, { timestamps: true });
 module.exports = mongoose.model("user", user);

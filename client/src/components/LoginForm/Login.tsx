@@ -1,47 +1,59 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser, signUpUser } from '../../store/actions/login'
-import useStyle from './style'
+import { loginUser, signUpUser } from '../../store/actions/login.actions'
+import useStyle from './style.login'
 import { Typography, TextField, Button, Paper, IconButton } from '@material-ui/core'
-import { useState } from "react";
-import { LockOpen, Lock } from '@material-ui/icons';
-import { useSelector } from 'react-redux';
+import { Lock } from '@material-ui/icons';
+import { ILoginFormData, mockLoginFormData } from '../../utils/app.utils';
 
 
-const Login = () => {
-    interface ILogin {
-        email: string,
-        name?: string,
-        password: string,
-        password1?: string,
-        phone?: string,
-    }
-    const mockLogin = {
-        email: '',
-        password: '',
-    }
-    const userData = useSelector((state: any) => state.userData);
+
+const Login = (props: any) => {
+    const { responseHandler: { formResponse, messageHandler } } = props;
+
     const dispatch = useDispatch();
     const classes = useStyle();
-    const [loginData, setLoginData] = useState<ILogin>(mockLogin)
+    const [loginData, setLoginData] = useState<ILoginFormData>(mockLoginFormData)
     const [loginMethod, setLoginMethod] = useState(true)
     const submitHandler = (e: any) => {
         e.preventDefault();
-        dispatch(loginMethod ? loginUser(loginData) : signUpUser(loginData))
+        messageHandler(loginMethod ? 'logging in...' : 'signing up...')
+        dispatch(loginMethod ? loginUser(loginData, messageHandler) : signUpUser(loginData, messageHandler));
     }
-    const resetHandler = () => { setLoginData(mockLogin); }
+    const resetHandler = () => { setLoginData(mockLoginFormData); }
 
     return (
         <Paper className={classes.paper}>
-            <form autoComplete='off' noValidate className={`${classes.form} ${classes.root}`} onSubmit={submitHandler}>
-                <IconButton
-                    color="primary"
-                    aria-label="sign up log in toggle"
-                    component="span"
-                    onClick={() => setLoginMethod(!loginMethod)}>
-                    {loginMethod ? <Lock /> : <LockOpen />}
-                    <Typography variant='h6'>{loginMethod ? 'Log in' : 'Sign up'}</Typography>
-                </IconButton>
+            <form
+                autoComplete='off'
+                noValidate
+                className={`${classes.form} ${classes.root}`}
+                onSubmit={submitHandler}>
+
+                {/* form Head */}
+                <div className={classes.formHead}>
+                    {/* form toggle */}
+                    <IconButton
+                        color="primary"
+                        aria-label="sign up log in toggle"
+                        component="span"
+                        onClick={() => setLoginMethod(!loginMethod)}>
+                        {loginMethod ? 'SIGN UP' : 'LOG IN'}
+                        <Lock />
+                    </IconButton>
+
+                    {/*form title */}
+                    <Typography
+                        variant='h6'
+                        className={classes.formHead_title}
+                    >{loginMethod ? 'Log in' : 'Sign up'}</Typography>
+                </div>
+
+
+
+
+
+
                 {/* email */}
                 <TextField
                     name='email'
@@ -51,6 +63,7 @@ const Login = () => {
                     value={loginData.email}
                     onChange={(e: any) => setLoginData({ ...loginData, email: e.target.value })}>
                 </TextField>
+
                 {/* password */}
                 <TextField
                     name='password'
@@ -62,15 +75,6 @@ const Login = () => {
                 </TextField>
                 {!loginMethod &&
                     <>
-                        {/* name */}
-                        < TextField
-                            name='name'
-                            variant='outlined'
-                            label='Name'
-                            fullWidth
-                            value={loginData.name}
-                            onChange={(e: any) => setLoginData({ ...loginData, name: e.target.value })}>
-                        </TextField>
                         {/* password1 */}
                         <TextField
                             name='password1'
@@ -80,6 +84,17 @@ const Login = () => {
                             value={loginData.password1}
                             onChange={(e: any) => setLoginData({ ...loginData, password1: e.target.value })}>
                         </TextField>
+
+                        {/* name */}
+                        < TextField
+                            name='name'
+                            variant='outlined'
+                            label='Name'
+                            fullWidth
+                            value={loginData.name}
+                            onChange={(e: any) => setLoginData({ ...loginData, name: e.target.value })}>
+                        </TextField>
+
                         {/* phone */}
                         <TextField
                             name='phone'
@@ -91,6 +106,7 @@ const Login = () => {
                         </TextField>
                     </>
                 }
+
                 {/* submit */}
                 <Button
                     type='submit'
@@ -101,6 +117,7 @@ const Login = () => {
                     variant='contained'>
                     Send
                 </Button>
+
                 {/* reset */}
                 <Button
                     type='reset'
@@ -112,6 +129,10 @@ const Login = () => {
                     onClick={resetHandler}>
                     Reset
                 </Button>
+
+                {/* form response */}
+                <Typography variant='h6'>{`${formResponse}`}</Typography>
+
             </form>
         </Paper >
     )

@@ -14,16 +14,35 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
+  formHead: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  formHead_button: {
+    flexBasis: 1,
+  },
+  formHead_title: {
+    textAlign: 'center',
+    flexGrow: 1,
+  },
   buttonSubmit: {
     marginBottom: 10,
+    width:'100%'
   },
   buttonAddFile: {
     marginBottom: 10,
   },
   buttonReset: {
+    width:'100%',
     marginBottom: 10,
   },
-  input: {
+  show: {
+    display: 'block',
+  },
+  hide: {
     display: 'none',
   },
   imgPreviewContainer: {

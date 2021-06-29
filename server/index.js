@@ -12,6 +12,7 @@ const path = require("path");
 const registerRouter = require("./api/register/register_router");
 const usersRouter = require("./api/users/users_router");
 const postsRouter = require("./api/posts/posts_router");
+const downloadsRouter = require("./api/downloads/downloads_router");
 
 const app = express();
 const PORT = process.env.PORT || 4201;
@@ -26,6 +27,7 @@ app.use(passport.initialize());
 app.use("/register", registerRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
+app.use("/files", downloadsRouter);
 
 db.on("error", () => {
     console.log(chalk.red("Connection error"));
