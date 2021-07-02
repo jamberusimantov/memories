@@ -16,10 +16,9 @@ const Post = (props: { post: IPost, isUserPage?: boolean }) => {
     const { creator, creatorId, title, message, file, tags, _id, createdAt, likes } = post;
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user);
-    const theme = useSelector((state: any) => state.theme);
     const [likeResponse, setLikeResponse] = useState('');
     const [isLike, setIsLike] = useState(likes?.some((like) => ({ _id: user._id, name: user.name })));
-    const classes = useStyles(theme);
+    const classes = useStyles();
     const tagsArray = tags?.split(' ') || [];
     const currentCreator = creatorId === user._id;
 
@@ -111,17 +110,18 @@ const Post = (props: { post: IPost, isUserPage?: boolean }) => {
                     </div>
 
                     {/* edit post btn */}
-                    {currentCreator && <Typography
-                        variant="inherit"
-                        color='primary'
-                        component="span"
-                        className={classes.overlay2}
-                        onClick={() => {
-                            dispatch(setMainFormData({ creator, title, message, tags, _id }));
-                            dispatch(setMainFormMethod(2));
-                        }} >
-                        <MoreHoriz />
-                    </Typography>}
+                    {currentCreator &&
+                        <Typography
+                            variant="inherit"
+                            color='primary'
+                            component="span"
+                            className={classes.overlay2}
+                            onClick={() => {
+                                dispatch(setMainFormData({ creator, title, message, tags, _id }));
+                                dispatch(setMainFormMethod(2));
+                            }} >
+                            <MoreHoriz />
+                        </Typography>}
 
                     {/* download img */}
                     <Typography
@@ -187,10 +187,10 @@ const Post = (props: { post: IPost, isUserPage?: boolean }) => {
                                 dispatch(setMainFormData({ creator, title, message, tags, _id: '' }));
                                 dispatch(setMainFormMethod(0));
                             }}>
-                            <Typography 
-                            variant="inherit" 
-                            component="span" 
-                            className={classes.link}
+                            <Typography
+                                variant="inherit"
+                                component="span"
+                                className={classes.link}
                             >{isUserPage ? 'GO BACK' : 'LEARN MORE'}</Typography>
                         </Link>
                     }

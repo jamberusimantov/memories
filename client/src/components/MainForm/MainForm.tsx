@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Typography, TextField, Button, Paper, IconButton } from '@material-ui/core'
 import { Search, Publish, PhotoCamera, Update } from '@material-ui/icons';
 import useStyle from './style.mainForm'
@@ -12,30 +12,32 @@ import { setMainFormData, setMainFormMethod } from '../../store/actions/form.act
 
 
 const Form = (props: any) => {
-    const { responseHandler: { formResponse, messageHandler } } = props;
+    const { responseHandler: { formResponse, messageHandler, isLogin } } = props;
     const user = useSelector((state: any) => state.user);
     const form = useSelector((state: any) => state.form);
-    const theme = useSelector((state: any) => state.theme);
     const { formData, method } = form;
     const dispatch = useDispatch();
-    const classes = useStyle(theme);
+    const classes = useStyle();
     const [isAddFile, setIsAddFile] = useState(false)
+    const history = useHistory();
+
     const submitHandler = (e: any) => {
         e.preventDefault();
         if (method === 0) {
             messageHandler('searching...')
             dispatch(getPosts(formData, messageHandler));
+            history.push('/posts');
         }
-
         else if (method === 1) {
             messageHandler('posting...')
-            formData.creatorId = user._id
+            formData.creatorId = isLogin ? user._id :  formData.creatorId;
             dispatch(postPost(formData, messageHandler))
+            history.push('/');
         }
-
         else if (method === 2) {
             messageHandler('editing...')
             dispatch(updatePost(formData, messageHandler));
+            history.push('/');
         }
         resetHandler();
     }
@@ -57,27 +59,22 @@ const Form = (props: any) => {
         reader.readAsDataURL(file);
     }
 
-    useEffect(() => {
-        if (method === 1 && !formData.creator) {
-            dispatch(setMainFormData({ ...formData, creator: user.name }))
-        }
-    }, [user.name, formData, method, dispatch])
-
     const icons = [<Search />, <Publish />, <Update />];
     const titles = ['Search', 'Create', 'Edit'];
-
+    const isCreator = (isLogin && method !== 1) || (!isLogin);
+    const isRequired = method !== 0; 
     return (
         <Paper className={classes.paper}>
             <form
                 autoComplete='off'
-                noValidate
+                onSubmit={submitHandler}
                 className={`${classes.form} ${classes.root}`}>
 
                 {/* form Head */}
                 <div className={classes.formHead}>
                     {/* form toggle */}
                     <IconButton
-                      className={classes.formHead_button}
+                        className={classes.formHead_button}
                         aria-label="create a post / search a post  toggle"
                         component="span"
                         onClick={() => dispatch(setMainFormMethod(method === 0 ? 1 : 0))}>
@@ -97,6 +94,7 @@ const Form = (props: any) => {
                     variant='outlined'
                     label='Title'
                     fullWidth
+                    required={isRequired}
                     value={formData.title}
                     onChange={(e: any) => dispatch(setMainFormData({ ...formData, title: e.target.value }))}>
                 </TextField>
@@ -107,16 +105,18 @@ const Form = (props: any) => {
                     variant='outlined'
                     label='Message'
                     fullWidth
+                    required={isRequired}
                     value={formData.message}
                     onChange={(e: any) => dispatch(setMainFormData({ ...formData, message: e.target.value }))}>
                 </TextField>
 
                 {/* creator */}
-                {method !== 1 && <TextField
+                {isCreator && <TextField
                     name='creator'
                     variant='outlined'
                     label='Creator'
                     fullWidth
+                    required={isRequired}
                     value={formData.creator}
                     onChange={(e: any) => dispatch(setMainFormData({ ...formData, creator: e.target.value }))}>
                 </TextField>}
@@ -127,6 +127,7 @@ const Form = (props: any) => {
                     variant='outlined'
                     label='Tags'
                     fullWidth
+                    required={isRequired}
                     value={formData.tags}
                     onChange={(e: any) => dispatch(setMainFormData({ ...formData, tags: e.target.value }))}>
                 </TextField>
@@ -170,28 +171,27 @@ const Form = (props: any) => {
 
 
                 {/* submit */}
-                <Link to='/' className={classes.link}>
-                    <Button
-                        fullWidth
-                        className={classes.btn}
-                        size='large'
-                        onClick={submitHandler}
-                        variant='contained'>
-                        Send
-                    </Button>
-                </Link>
+                <Button
+                    fullWidth
+                    className={classes.btn}
+                    size='large'
+                    type='submit'
+                    // onClick={submitHandler}
+                    variant='contained'>
+                    Send
+                </Button>
 
                 {/* reset */}
-                <Link to='/' className={classes.link}>
-                    <Button
-                        fullWidth
-                        className={classes.btn}
-                        size='small'
-                        variant='contained'
-                        onClick={resetHandler}>
-                        Reset
-                    </Button>
-                </Link>
+                <Button
+                    fullWidth
+                    className={classes.btn}
+                    size='small'
+                    variant='contained'
+                    type='reset'
+                    onClick={resetHandler}
+                >
+                    Reset
+                </Button>
 
                 {/* form response */}
                 <Typography variant='h6'>{`${formResponse}`}</Typography>

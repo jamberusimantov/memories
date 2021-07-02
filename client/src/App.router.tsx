@@ -5,10 +5,16 @@ import pages from './pages'
 
 
 export default function AppRouter(props: any) {
-    const { PostPage, Posts, PageError } = pages;
+ 
+    const { PostPage, Posts, PageError, Home } = pages;
+
     return (
         <Switch>
             <Route exact path="/">
+                <Home />
+            </Route>
+
+            <Route path="/posts">
                 <Posts />
             </Route>
 

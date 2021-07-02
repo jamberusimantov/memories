@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import style from '../../style'
 
-const useStyle = (userTheme:any) => {
+const useStyle = () => {
 
  const loginStyle =  makeStyles((theme) => ({
     root: {
@@ -25,7 +25,7 @@ const useStyle = (userTheme:any) => {
       alignItems: 'center',
     },
     formHead_button: {
-      color: userTheme.secondaryColor || style.colors[9].value,
+      color: style.colors[9].value,
     },
     formHead_title: {
       textAlign: 'center',
@@ -33,9 +33,9 @@ const useStyle = (userTheme:any) => {
     },
     btn: {
       marginBottom: 10,
-      backgroundColor: userTheme.secondaryColor || style.colors[0].value,
-      color: userTheme.primaryColor || style.colors[9].value,
-      fontSize: userTheme.fontSize || 'medium',
+      backgroundColor:style.colors[0].value,
+      color: style.colors[9].value,
+      fontSize: 'medium',
     },
 
     show: {

@@ -12,11 +12,9 @@ const getManyPosts = async(req, res) => {
         const searchMethod = data => ({ $regex: data })
         const validate = validator(req.body, searchMethod)
         const query = validate.query
-        const limit = req.body.limit || !validate.isQuery ? 6 : 10;
-        const posts = !validate.isQuery ?
-            await postsCollection.find().limit(limit) :
-            await postsCollection.aggregate([{ $match: query }]).limit(limit);
-
+        const limit = req.body.limit ? req.body.limit : 6;
+        const aggOpt = !validate.isQuery ? { $sort: { _id: -1 } } : { $match: query };
+        const posts = await postsCollection.aggregate([aggOpt]).limit(limit);
         if (!posts) return failHandler(query, res, 'getManyPosts')
         successHandler(posts, res, 'getManyPosts');
         console.log(`success get ${posts.length} posts...`);

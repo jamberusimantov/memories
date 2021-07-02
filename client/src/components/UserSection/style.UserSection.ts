@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
+import style from '../../style'
 
-const style = makeStyles(theme => ({
+const useStyle = makeStyles(theme => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -9,34 +10,16 @@ const style = makeStyles(theme => ({
   fullWidth: {
     width: '100%',
   },
-  flexCenter:{
-    display:'flex',
-    justifyItems:'center',
-  },
-  progress: {
-    padding: theme.spacing(.5),
-    marginBottom: theme.spacing(1),
+  flexCenter: {
+    display: 'flex',
+    justifyItems: 'center',
   },
   paper: {
-    padding: theme.spacing(2),
-    maxWidth:'300px',
+    padding: theme.spacing(1),
+    maxWidth: '300px',
   },
-  form: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  input: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  buttonSubmit: {
-    marginBottom: 10,
-  },
-  buttonReset: {
-    marginBottom: 10,
+  formHead_button: {
+    color: style.colors[9].value,
   },
   userSection: {
     display: 'flex',
@@ -46,16 +29,16 @@ const style = makeStyles(theme => ({
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
-      alignItems:'center'
+      alignItems: 'center'
     },
   },
   sectionMobile: {
     display: 'flex',
-    alignItems:'center',
+    alignItems: 'center',
     [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
 }))
 
-export default style;
+export default useStyle;

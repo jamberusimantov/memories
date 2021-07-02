@@ -3,9 +3,19 @@ import { baseURL } from './utils.api'
 import { IPost } from '../components/Post/utils';
 const posts = `${baseURL}/posts`;
 
-export const getPosts = async (post?: IPost | undefined) => {
+export const getPosts = async (post?: IPost | undefined, limit?: number) => {
+
+    const query = {
+        limit,
+        title: post?.title,
+        creator: post?.creator,
+        message: post?.message,
+        tags: post?.tags,
+    }
+
+
     try {
-        const res = await axios.post(posts, post);
+        const res = await axios.post(posts, query);
         return res.data;
 
     } catch (error) {

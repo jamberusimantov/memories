@@ -3,7 +3,7 @@ import style from '../../style'
 
 
 
-const useStyle = (userTheme: any) => {
+const useStyle = () => {
 
   const loginStyle = makeStyles(() => ({
     media: {
@@ -28,20 +28,20 @@ const useStyle = (userTheme: any) => {
       position: 'absolute',
       top: '20px',
       left: '20px',
-      color: userTheme.secondaryColor || style.colors[0].value,
-      fontSize: userTheme.fontSize || 'medium',
+      color: style.colors[0].value,
+      fontSize:'medium',
     },
     overlay1: {
       position: 'absolute',
       top: '50px',
       left: '20px',
-      color: userTheme.secondaryColor || style.colors[0].value,
+      color: style.colors[0].value,
     },
     overlay2: {
       position: 'absolute',
       top: '20px',
       right: '20px',
-      color: userTheme.secondaryColor || style.colors[0].value,
+      color:style.colors[0].value,
     },
     details: {
       display: 'flex',
@@ -55,7 +55,7 @@ const useStyle = (userTheme: any) => {
     },
     title: {
       padding: '0 16px',
-      fontSize: userTheme.fontSize || 'medium',
+      fontSize:'medium',
       textAlign: 'center',
 
     },
@@ -74,10 +74,10 @@ const useStyle = (userTheme: any) => {
       padding: '0 16px 8px',
       display: 'flex',
       justifyContent: 'space-between',
-      color: userTheme.secondaryColor || style.colors[0].value,
+      color: style.colors[0].value,
     },
     link:{
-      color: userTheme.secondaryColor || style.colors[0].value,
+      color: style.colors[0].value,
     },
   }));
   return loginStyle();

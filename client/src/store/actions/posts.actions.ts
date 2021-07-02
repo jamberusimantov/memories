@@ -33,9 +33,9 @@ export const postPost = (post: IPost, message?: (msg: string) => void) => async 
         console.error(error.message)
     } finally { }
 }
-export const getPosts = (post?: IPost | undefined, message?: (msg: string) => void) => async (dispatch: any) => {
+export const getPosts = (post?: IPost | undefined, message?: (msg: string) => void, limit?: number) => async (dispatch: any) => {
     try {
-        const res = await api.posts.getPosts(post);
+        const res = await api.posts.getPosts(post, limit);
         if (res.success) {
             const msg = 'success get many posts'
             message ? message(msg) : console.log(msg);

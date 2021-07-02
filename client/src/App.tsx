@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+import { Container, AppBar, Typography, Grow, Grid, IconButton } from '@material-ui/core';
 import Router from './App.router'
 import './index.css';
 import memories from './assets/memories.png';
@@ -8,19 +8,20 @@ import browserStorage from './utils/browserStorage.utils'
 import useStyle from './style/style.app'
 import components from './components';
 import actions from './store/actions';
+import { HomeOutlined } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
 
 const App = () => {
-    const { MainForm, UserSection, LoginForm, } = components;
+    const { MainForm, UserSection } = components;
     const loginActions = actions.login
     const user = useSelector((state: any) => state.user);
-    const Theme = useSelector((state: any) => state.theme);
-    const { primaryColor, secondaryColor, emphasizeColor, polygonHeight, polygonWidth, polygonOpacity, fontColor } = Theme;
-    const dataToUpdate = { fontColor, primaryColor, secondaryColor, emphasizeColor, polygonHeight, polygonWidth, polygonOpacity }
-    const classes = useStyle(dataToUpdate);
+    const classes = useStyle();
     const dispatch = useDispatch();
     const [isLogin, setIsLogin] = useState(false);
     const [formResponse, setFormResponse] = useState('')
+    const history = useHistory();
+
 
     // form response msg handler
     const messageHandler = (data: string) => {
@@ -29,6 +30,7 @@ const App = () => {
     }
 
     const { getUser } = loginActions;
+
 
     // login using token
     useEffect(() => {
@@ -50,7 +52,20 @@ const App = () => {
     return (
         <div className={classes.root}>
             <Container maxWidth='lg' >
-                {isLogin && <UserSection />}
+                <div className={classes.relative}>
+                    {/* home btn */}
+                    <IconButton
+                        className={classes.home_button}
+                        aria-label="home btn"
+                        onClick={() => { history.push('/') }}
+                        component="span">
+                        HOME
+                        <HomeOutlined />
+                    </IconButton>
+                </div>
+
+                {/* user section  */}
+                <UserSection responseHandler={{ formResponse, messageHandler, isLogin, setIsLogin }} />
 
                 {/* header */}
                 <AppBar className={classes.appBar} position='static' color='inherit' >
@@ -67,11 +82,9 @@ const App = () => {
                             alignItems='center'
                             spacing={3}>
 
-                            {/* form toggle */}
+                            {/* form */}
                             <Grid item xs={12} sm={4}>
-                                {isLogin ?
-                                    <MainForm responseHandler={{ formResponse, messageHandler }} /> :
-                                    <LoginForm responseHandler={{ formResponse, messageHandler }} />}
+                                <MainForm responseHandler={{ formResponse, messageHandler, isLogin }} />
                             </Grid>
 
                             {/* main display */}
@@ -79,7 +92,7 @@ const App = () => {
                                 item
                                 xs={12}
                                 sm={8}>
-                                <Router />
+                                <Router/>
                             </Grid>
 
                         </Grid>
