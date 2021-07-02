@@ -5,7 +5,7 @@ import pages from './pages'
 
 
 export default function AppRouter(props: any) {
- 
+
     const { PostPage, Posts, PageError, Home } = pages;
 
     return (
@@ -15,7 +15,7 @@ export default function AppRouter(props: any) {
             </Route>
 
             <Route path="/posts">
-                <Posts />
+                <Posts utils={{ originHome: false }} />
             </Route>
 
             <Route path="/post/:id">
