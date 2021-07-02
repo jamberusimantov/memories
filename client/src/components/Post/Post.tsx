@@ -203,3 +203,17 @@ const Post = (props: { post: IPost, isUserPage?: boolean }) => {
     );
 }
 export default Post;
+
+Post.defaultProps = {
+    post: {
+        creator: '',
+        creatorId: '',
+        title: '',
+        message: '',
+        file: {},
+        tags: '',
+        _id: '',
+        createdAt: '',
+        likes: []
+    }
+}
