@@ -12,7 +12,7 @@ export default function Home(props: any) {
 
     // get posts
     useEffect(() => {
-        dispatch(getPosts(undefined, undefined, 2))
+        dispatch(getPosts(undefined, undefined, 10))
     }, [dispatch, getPosts])
 
 

@@ -14,26 +14,22 @@ const Posts = (props: any) => {
     const posts = useSelector((state: any) => state.posts);
 
     if (!posts.length) return (
-        <Grid container justify='center' alignItems='center' spacing={3} className={classes.mainContainer}>
+        <Grid
+            container
+            justify='center'
+            alignItems='center'
+            spacing={3}
+            className={classes.mainContainer}>
             <LoaderSmall timeout={15000} />
         </Grid>
     )
 
     return (
         <Grid container justify='space-between' alignItems='stretch' spacing={3}>
-            {!originHome ?
-                React.Children.toArray(posts.map((post: any) =>
-                    <Grid item xs={12} sm={6}>
-                        <Post post={post} />
-                    </Grid>)) :
-                <>
-                    <Grid item xs={12} sm={6}>
-                        <Post post={posts[0]} />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <Post post={posts[1]} />
-                    </Grid>
-                </>}
+            {React.Children.toArray(posts.map((post: any) =>
+                <Grid item xs={12} sm={6}>
+                    <Post post={post} />
+                </Grid>))}
         </Grid>
     )
 }

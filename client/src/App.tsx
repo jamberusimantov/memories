@@ -13,8 +13,9 @@ import { useHistory } from "react-router-dom";
 
 
 const App = () => {
-    const { MainForm, UserSection } = components;
     const loginActions = actions.login
+    const { getUser } = loginActions;
+    const { MainForm, UserSection } = components;
     const user = useSelector((state: any) => state.user);
     const classes = useStyle();
     const dispatch = useDispatch();
@@ -29,7 +30,6 @@ const App = () => {
         setTimeout(() => { setFormResponse(''); }, 3000)
     }
 
-    const { getUser } = loginActions;
 
 
     // login using token
